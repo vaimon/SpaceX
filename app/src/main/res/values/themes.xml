@@ -1,0 +1,13 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.SpaceX" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/black</item>
+        <item name="colorOnPrimary">@color/white</item>
+    </style>
+
+    <style name="Theme.SpaceX" parent="Base.Theme.SpaceX" />
+
+    <style name="Theme.SpaceX.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+
+    </style>
+</resources>
