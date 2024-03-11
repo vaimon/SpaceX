@@ -17,8 +17,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
 
-        setupToolbar()
         setContentView(binding.root)
+        setupToolbar()
     }
 
     private fun setupToolbar() {
@@ -28,5 +28,9 @@ class MainActivity : AppCompatActivity() {
             navController,
             AppBarConfiguration(navController.graph)
         )
+    }
+
+    fun setTitle(title: String) {
+        binding.toolbar.title = title
     }
 }

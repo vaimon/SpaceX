@@ -7,15 +7,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
 import me.vaimon.spacex.R
 import me.vaimon.spacex.databinding.FragmentLaunchesBinding
+import me.vaimon.spacex.ui.LaunchesViewModel
 import me.vaimon.spacex.ui.launches_list.adapters.LaunchRecyclerViewAdapter
 import me.vaimon.spacex.ui.models.Launch
 
@@ -33,9 +31,7 @@ class LaunchesFragment : Fragment() {
         )
     }
 
-    private val viewModel: LaunchesViewModel by viewModels()
-
-    private val observerDisposable = CompositeDisposable()
+    private val viewModel: LaunchesViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,35 +57,23 @@ class LaunchesFragment : Fragment() {
     }
 
     private fun setupObservers() {
-        viewModel.launches
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                characterListAdapter.replaceWithNewLaunches(it)
-                toggleProgressBar(false)
-            }
-            .also { observerDisposable.add(it) }
+        viewModel.launches.observe(viewLifecycleOwner) {
+            characterListAdapter.replaceWithNewLaunches(it)
+            toggleProgressBar(false)
+        }
 
-        viewModel.eventBus
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                when (it) {
-                    is LaunchesViewModel.Event.DetailsNavigationRequired ->
-                        navigateToDetailsScreen(it.targetId)
+        viewModel.eventBus.observe(viewLifecycleOwner) {
+            when (it) {
+                is LaunchesViewModel.Event.DetailsNavigationRequired ->
+                    navigateToDetailsScreen(it.targetId)
 
-                    is LaunchesViewModel.Event.Error -> {
-                        showError(it.message)
-                        toggleProgressBar(false)
-                    }
+                is LaunchesViewModel.Event.Error -> {
+                    showError(it.message)
+                    toggleProgressBar(false)
                 }
-            }.also { observerDisposable.add(it) }
+            }
+        }
     }
-
-    override fun onDestroy() {
-        observerDisposable.dispose()
-        super.onDestroy()
-    }
-
     private fun toggleProgressBar(shouldShow: Boolean) = with(binding) {
         pbLoadingIndicator.isVisible = shouldShow
     }

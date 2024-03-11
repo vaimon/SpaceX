@@ -7,6 +7,6 @@ data class LaunchData(
     @SerializedName("mission_name") val name: String,
     @SerializedName("launch_year") val year: String,
     @SerializedName("launch_success") val success: Boolean,
-    val details: String,
+    val details: String?,
     val links: LaunchLinksData
 )

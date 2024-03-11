@@ -3,4 +3,8 @@
     <string name="desc_launch_badge">Launch badge</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="unknown_error">Unknown error</string>
+    <string name="launched_in">Launched in %1$s</string>
+    <string name="successful">Successful</string>
+    <string name="failed">Failed</string>
+    <string name="watch_on_youtube">Watch on YouTube</string>
 </resources>

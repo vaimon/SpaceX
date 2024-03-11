@@ -21,8 +21,7 @@ class RepositoryModule {
         launchAppDataMapper: Mapper<Launch, LaunchData>
     ): LaunchRepository {
         return LaunchRepositoryImpl(
-            apiDataSource,
-            launchAppDataMapper
+            apiDataSource
         )
     }
 }
