@@ -3,8 +3,8 @@ plugins {
 
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-
-
+    alias(libs.plugins.safeArgsPlugin)
+    alias(libs.plugins.hiltPlugin)
 }
 
 android {
@@ -55,6 +55,13 @@ dependencies {
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
+
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.retrofit.rxjava3.adapter)
+
+    implementation(libs.rxjava)
+    implementation(libs.rxandroid)
 
     implementation(libs.coil)
 

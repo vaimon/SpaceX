@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.SpaceX" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/black</item>
@@ -9,5 +9,14 @@
 
     <style name="Theme.SpaceX.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
 
+    </style>
+
+    <style name="Theme.SpaceX.TextView.SingleLine" parent="Widget.MaterialComponents.TextView">
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="Theme.SpaceX.TextView.ListItem" parent="Theme.SpaceX.TextView.SingleLine">
+        <item name="android:textSize">20sp</item>
     </style>
 </resources>

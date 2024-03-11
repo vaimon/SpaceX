@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/app_navigation">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_navigation"
+    app:startDestination="@id/launchesFragment">
 
+    <fragment
+        android:id="@+id/launchesFragment"
+        android:name="me.vaimon.spacex.ui.launches_list.LaunchesFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_launches">
+        <action
+            android:id="@+id/action_launchesList_toDetails"
+            app:destination="@id/launchDetailsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <fragment
+        android:id="@+id/launchDetailsFragment"
+        android:name="me.vaimon.spacex.ui.launch_details.LaunchDetailsFragment"
+        tools:layout="@layout/fragment_launch_details">
+        <argument
+            android:name="launch_id"
+            app:argType="integer" />
+    </fragment>
 </navigation>
