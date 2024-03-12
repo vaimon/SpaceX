@@ -1,7 +1,11 @@
 package me.vaimon.spacex
 
 import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
+import me.vaimon.spacex.di.ApplicationComponent
+import me.vaimon.spacex.di.DaggerApplicationComponent
 
-@HiltAndroidApp
-class SpaceXApp: Application()
+class SpaceXApp : Application() {
+    val appComponent: ApplicationComponent by lazy {
+        DaggerApplicationComponent.factory().create(applicationContext)
+    }
+}

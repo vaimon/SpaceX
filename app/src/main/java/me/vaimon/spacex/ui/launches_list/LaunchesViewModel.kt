@@ -1,10 +1,9 @@
-package me.vaimon.spacex.ui
+package me.vaimon.spacex.ui.launches_list
 
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import me.vaimon.spacex.data.models.LaunchData
@@ -15,7 +14,6 @@ import me.vaimon.spacex.ui.repository.LaunchRepository
 import me.vaimon.spacex.utils.SingleLiveEvent
 import javax.inject.Inject
 
-@HiltViewModel
 class LaunchesViewModel @Inject constructor(
     launchRepository: LaunchRepository,
     private val launchAppDataMapper: Mapper<Launch, LaunchData>,
@@ -29,7 +27,6 @@ class LaunchesViewModel @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ launchesList ->
                 _launches.value = launchesList.map { launchAppDataMapper.from(it) }
-                _detailedLaunches.value = launchesList.map { detailedLaunchAppDataMapper.from(it) }
             }, {
                 Log.e("Launches fetch", it.localizedMessage ?: it.toString())
                 eventBus.value = Event.Error(it.localizedMessage)
@@ -39,15 +36,9 @@ class LaunchesViewModel @Inject constructor(
     private val _launches = MutableLiveData<List<Launch>>()
     val launches: LiveData<List<Launch>> = _launches
 
-    private val _detailedLaunches = MutableLiveData<List<DetailedLaunch>>()
 
     fun onLaunchClick(item: Launch) {
         eventBus.value = Event.DetailsNavigationRequired(item.id)
-    }
-
-    fun getLaunchById(launchId: Int): DetailedLaunch {
-        return _detailedLaunches.value?.find { it.id == launchId }
-            ?: throw IllegalStateException()
     }
 
     sealed interface Event {

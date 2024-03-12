@@ -1,5 +1,6 @@
 package me.vaimon.spacex.ui.launch_details
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -9,24 +10,34 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import coil.load
-import dagger.hilt.android.AndroidEntryPoint
 import me.vaimon.spacex.R
+import me.vaimon.spacex.SpaceXApp
 import me.vaimon.spacex.databinding.FragmentLaunchDetailsBinding
-import me.vaimon.spacex.ui.LaunchesViewModel
 import me.vaimon.spacex.ui.MainActivity
 import me.vaimon.spacex.ui.models.DetailedLaunch
+import javax.inject.Inject
 
 
-@AndroidEntryPoint
 class LaunchDetailsFragment : Fragment() {
     private lateinit var binding: FragmentLaunchDetailsBinding
 
     private val navigationArgs: LaunchDetailsFragmentArgs by navArgs()
 
-    private val viewModel: LaunchesViewModel by activityViewModels()
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val viewModel: LaunchDetailsViewModel by viewModels { viewModelFactory }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        (requireActivity().application as SpaceXApp).appComponent.launchDetailsComponent().create()
+            .inject(this)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,18 +50,19 @@ class LaunchDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupObservers()
-        viewModel.getLaunchById(navigationArgs.launchId).let {
-            setupTitle(it.name)
-            setupData(it)
-        }
+        viewModel.startObserving(navigationArgs.launchId)
     }
 
     private fun setupObservers() {
         viewModel.eventBus.observe(viewLifecycleOwner) {
             when (it) {
-                is LaunchesViewModel.Event.Error -> showError(it.message)
-                else -> Unit
+                is LaunchDetailsViewModel.Event.Error -> showError(it.message)
             }
+        }
+
+        viewModel.launchDetails.observe(viewLifecycleOwner) {
+            setupTitle(it.name)
+            setupData(it)
         }
     }
 

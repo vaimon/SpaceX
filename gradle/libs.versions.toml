@@ -11,7 +11,8 @@ appcompat = "1.6.1"
 material = "1.11.0"
 activity = "1.8.0"
 constraintlayout = "2.1.4"
-hilt = "2.50"
+#hilt = "2.50"
+dagger = "2.50"
 navigation = "2.7.7"
 retrofit = "2.9.0"
 rxjava = "3.1.8"
@@ -32,8 +33,10 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 retrofit-rxjava3-adapter = { module = "com.squareup.retrofit2:adapter-rxjava3", version.ref = "retrofit" }
 
-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
-hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
+#hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+#hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
+dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
+dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
 javax-inject = { module = "javax.inject:javax.inject", version.ref = "javaxInject" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -48,6 +51,6 @@ androidx-constraintlayout = { group = "androidx.constraintlayout", name = "const
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-hiltPlugin = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+#hiltPlugin = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 safeArgsPlugin = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation" }
 
