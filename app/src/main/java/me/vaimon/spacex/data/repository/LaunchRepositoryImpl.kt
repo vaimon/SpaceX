@@ -10,5 +10,5 @@ class LaunchRepositoryImpl @Inject constructor(
     private val apiDataSource: ApiDataSource,
 ) : LaunchRepository {
     override val launches: Observable<List<LaunchData>> =
-        apiDataSource.getLaunches()
+        apiDataSource.getLaunches().cache()
 }
